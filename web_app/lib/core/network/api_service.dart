@@ -19,7 +19,7 @@ class _ApiService {
 
   static String get _baseUrl {
     final url = dotenv.env['API_BASE_URL'];
-    return (url != null && url.isNotEmpty) ? url : 'http://localhost:8080/api/v1';
+    return (url != null && url.isNotEmpty) ? url : 'https://orbit-backend-hyc9.onrender.com/api/v1';
   }
 
   static Dio _createDio() {
