@@ -17,9 +17,14 @@ class Database {
     
     final uri = Uri.parse(dbUrl);
 
+    // Uri.port returns 0 (not 5432) when the URL omits an explicit port,
+    // which Render's Internal Database URL does — Dart only knows default
+    // ports for schemes like http/https, not postgres/postgresql.
+    final port = uri.hasPort ? uri.port : 5432;
+
     final endpoint = Endpoint(
       host: uri.host,
-      port: uri.port,
+      port: port,
       database: uri.pathSegments.first,
       username: uri.userInfo.split(':').first,
       password: uri.userInfo.split(':').length > 1 ? uri.userInfo.split(':')[1] : null,
