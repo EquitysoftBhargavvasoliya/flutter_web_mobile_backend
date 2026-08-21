@@ -1,6 +1,7 @@
 import 'package:get/get.dart' hide Response;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../core/network/api_service.dart';
+import 'package:api_client/api_client.dart';
+import 'package:models/models.dart';
 
 class AuthRepository {
   final storage = const FlutterSecureStorage();
@@ -18,10 +19,11 @@ class AuthRepository {
     final token = data['token'];
     if (token == null) return false;
 
+    final user = User.fromJson(data['user']);
     await storage.write(key: 'jwt_token', value: token);
-    await storage.write(key: 'user_role', value: data['user']['role'] ?? 'Buyer');
-    await storage.write(key: 'user_id', value: data['user']['id'] ?? '');
-    await storage.write(key: 'user_name', value: data['user']['name'] ?? '');
+    await storage.write(key: 'user_role', value: user.role);
+    await storage.write(key: 'user_id', value: user.id);
+    await storage.write(key: 'user_name', value: user.name);
     return true;
   }
 

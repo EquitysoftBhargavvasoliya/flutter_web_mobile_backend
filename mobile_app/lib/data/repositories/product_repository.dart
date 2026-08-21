@@ -1,5 +1,4 @@
-import '../../core/network/api_service.dart';
-import '../../core/utils/logger.dart';
+import 'package:api_client/api_client.dart';
 
 class ProductRepository {
   Future<List<dynamic>> getProducts({String? sellerId}) async {

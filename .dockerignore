@@ -1,0 +1,16 @@
+.git/
+.github/
+.gitignore
+.idea/
+.vscode/
+build/
+.dart_tool/
+.packages
+*.log
+.env
+.env.*
+
+# Frontend apps aren't part of the backend Docker image.
+mobile_app/
+web_app/
+admin_panel/

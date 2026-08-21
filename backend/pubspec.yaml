@@ -1,6 +1,7 @@
 name: backend
 description: A server app using the shelf package and Docker.
 version: 1.0.0
+publish_to: 'none'
 # repository: https://github.com/my_org/my_repo
 
 environment:
@@ -12,6 +13,8 @@ dependencies:
   dart_jsonwebtoken: ^3.4.1
   dotenv: ^4.2.0
   googleapis_auth: ^2.3.3
+  models:
+    path: ../packages/models
   postgres: ^3.5.12
   shelf: ^1.4.2
   shelf_router: ^1.1.4

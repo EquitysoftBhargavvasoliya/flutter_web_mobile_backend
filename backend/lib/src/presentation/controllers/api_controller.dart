@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import '../../data/repositories/repository.dart';
-import '../../domain/entities/models.dart';
+import 'package:models/models.dart';
 import '../../core/network/middleware.dart';
 
 class ApiController {

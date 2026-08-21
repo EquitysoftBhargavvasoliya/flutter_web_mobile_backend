@@ -1,13 +1,16 @@
 # Use latest stable channel SDK.
 FROM dart:stable AS build
 
+# Shared packages referenced via path dependency (../packages/* relative to /app).
+COPY packages/ /packages/
+
 # Resolve app dependencies.
 WORKDIR /app
-COPY pubspec.* ./
+COPY backend/pubspec.* ./
 RUN dart pub get
 
 # Copy app source code (except anything in .dockerignore) and AOT compile app.
-COPY . .
+COPY backend/ .
 RUN dart compile exe bin/server.dart -o bin/server
 
 # Build minimal serving image from AOT-compiled `/server`

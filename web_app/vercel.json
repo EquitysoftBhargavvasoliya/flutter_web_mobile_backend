@@ -1,0 +1,6 @@
+{
+  "framework": null,
+  "buildCommand": "git clone https://github.com/flutter/flutter.git --depth 1 -b stable _flutter && export PATH=\"$PWD/_flutter/bin:$PATH\" && flutter config --no-analytics && echo \"API_BASE_URL=$API_BASE_URL\" > .env && flutter pub get && flutter build web --release",
+  "outputDirectory": "build/web",
+  "installCommand": "echo 'no npm install needed for Flutter Web'"
+}

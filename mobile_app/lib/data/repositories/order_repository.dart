@@ -1,5 +1,4 @@
-import '../../core/network/api_service.dart';
-import '../../core/utils/logger.dart';
+import 'package:api_client/api_client.dart';
 
 class OrderRepository {
   Future<List<dynamic>> getOrders(String userId, {bool asSeller = false}) async {

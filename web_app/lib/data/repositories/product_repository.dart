@@ -1,39 +1,29 @@
-import 'package:get/get.dart';
-import '../../core/network/api_client.dart';
+import 'package:api_client/api_client.dart';
 
 class ProductRepository {
-  final ApiClient apiClient = Get.find<ApiClient>();
-
   Future<List<dynamic>> getProducts({String? sellerId}) async {
-    final path = sellerId != null ? '/products?seller_id=$sellerId' : '/products';
-    final response = await apiClient.get(path);
-    if (response.isOk) {
-      return response.body as List<dynamic>;
+    try {
+      final query = sellerId != null ? {'seller_id': sellerId} : null;
+      final response = await apiService.get('/products', query: query);
+      return response.data as List<dynamic>;
+    } catch (e) {
+      logger.e('ProductRepository.getProducts failed: $e');
+      return [];
     }
-    return [];
   }
 
   Future<bool> createProduct(Map<String, dynamic> data) async {
-    final response = await apiClient.post('/products', data);
-    if (!response.isOk) throw Exception(_extractError(response, 'Failed to add product'));
-    return response.isOk;
+    await apiService.post('/products', data);
+    return true;
   }
 
   Future<bool> updateProduct(String id, Map<String, dynamic> data) async {
-    final response = await apiClient.put('/products/$id', data);
-    if (!response.isOk) throw Exception(_extractError(response, 'Failed to update product'));
-    return response.isOk;
+    await apiService.put('/products/$id', data);
+    return true;
   }
 
   Future<bool> deleteProduct(String id) async {
-    final response = await apiClient.delete('/products/$id');
-    if (!response.isOk) throw Exception(_extractError(response, 'Failed to delete product'));
-    return response.isOk;
-  }
-
-  String _extractError(Response response, String fallback) {
-    return response.body != null && response.body is Map
-        ? (response.body['error'] ?? fallback)
-        : fallback;
+    await apiService.delete('/products/$id');
+    return true;
   }
 }

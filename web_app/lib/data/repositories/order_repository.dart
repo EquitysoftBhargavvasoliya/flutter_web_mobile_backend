@@ -1,15 +1,17 @@
-import 'package:get/get.dart';
-import '../../core/network/api_client.dart';
+import 'package:api_client/api_client.dart';
 
 class OrderRepository {
-  final ApiClient apiClient = Get.find<ApiClient>();
-
   Future<List<dynamic>> getOrders(String userId, {bool asSeller = false}) async {
-    final response = await apiClient.get('/orders?user_id=$userId&as_seller=$asSeller');
-    if (response.isOk) {
-      return response.body as List<dynamic>;
+    try {
+      final response = await apiService.get('/orders', query: {
+        'user_id': userId,
+        'as_seller': asSeller.toString(),
+      });
+      return response.data as List<dynamic>;
+    } catch (e) {
+      logger.e('OrderRepository.getOrders failed: $e');
+      return [];
     }
-    return [];
   }
 
   Future<bool> createOrder({
@@ -19,7 +21,7 @@ class OrderRepository {
     required String productId,
     required int quantity,
   }) async {
-    final response = await apiClient.post('/orders', {
+    await apiService.post('/orders', {
       'buyer_id': buyerId,
       'seller_id': sellerId,
       'total_price': totalPrice,
@@ -27,12 +29,6 @@ class OrderRepository {
       'quantity': quantity,
       'status': 'COD', // Cash on Delivery
     });
-    if (!response.isOk) {
-      final error = response.body != null && response.body is Map
-          ? (response.body['error'] ?? 'Checkout failed')
-          : 'Checkout failed';
-      throw Exception(error);
-    }
-    return response.isOk;
+    return true;
   }
 }

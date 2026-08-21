@@ -25,9 +25,13 @@ class Database {
       password: uri.userInfo.split(':').length > 1 ? uri.userInfo.split(':')[1] : null,
     );
 
+    final sslMode = (env['DB_SSL_MODE'] ?? Platform.environment['DB_SSL_MODE']) == 'require'
+        ? SslMode.require
+        : SslMode.disable;
+
     _pool = Pool.withEndpoints([endpoint], settings: PoolSettings(
       maxConnectionCount: 10,
-      sslMode: SslMode.disable,
+      sslMode: sslMode,
     ));
     
     print('Connected to PostgreSQL at ${endpoint.host}:${endpoint.port}');

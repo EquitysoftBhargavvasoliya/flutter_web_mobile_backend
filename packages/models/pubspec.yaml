@@ -1,0 +1,7 @@
+name: models
+description: Shared data models for the Orbit Marketplace backend, web, admin, and mobile apps.
+version: 1.0.0
+publish_to: 'none'
+
+environment:
+  sdk: ^3.10.3

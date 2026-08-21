@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:postgres/postgres.dart';
 import '../../core/network/database.dart';
-import '../../domain/entities/models.dart';
+import 'package:models/models.dart';
 import 'package:crypt/crypt.dart';
 
 class BackendRepository {

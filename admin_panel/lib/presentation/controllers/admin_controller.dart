@@ -1,9 +1,9 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../core/network/api_client.dart';
+import 'package:api_client/api_client.dart';
+import 'package:models/models.dart';
 
 class AdminController extends GetxController {
-  final ApiClient apiClient = Get.put(ApiClient());
   final storage = const FlutterSecureStorage();
 
   var isLoading = false.obs;
@@ -49,36 +49,29 @@ class AdminController extends GetxController {
   Future<void> login(String email, String password) async {
     isLoading.value = true;
     try {
-      final response = await apiClient.post('/auth/login', {
+      final response = await apiService.post('/auth/login', {
         'email': email,
         'password': password,
       });
 
-      if (response.isOk && response.body != null) {
-        final data = response.body as Map<String, dynamic>;
-        final role = data['user']['role'];
-        if (role != 'Admin') {
-          Get.snackbar('Access Denied', 'Only administrators are allowed to access this panel.', snackPosition: SnackPosition.BOTTOM);
-          return;
-        }
-
-        final token = data['token'];
-        await storage.write(key: 'jwt_token', value: token);
-        await storage.write(key: 'user_role', value: role);
-        await storage.write(key: 'user_id', value: data['user']['id']);
-        await storage.write(key: 'user_name', value: data['user']['name']);
-
-        isLoggedIn.value = true;
-        adminName.value = data['user']['name'] ?? 'Admin';
-        
-        Get.offAllNamed('/dashboard');
-        fetchAdminData();
-      } else {
-        final error = response.body != null && response.body is Map && response.body['error'] != null
-            ? response.body['error']
-            : 'Invalid credentials or connection failed.';
-        Get.snackbar('Login Failed', error.toString(), snackPosition: SnackPosition.BOTTOM);
+      final data = response.data as Map<String, dynamic>;
+      final user = User.fromJson(data['user']);
+      if (user.role != 'Admin') {
+        Get.snackbar('Access Denied', 'Only administrators are allowed to access this panel.', snackPosition: SnackPosition.BOTTOM);
+        return;
       }
+
+      final token = data['token'];
+      await storage.write(key: 'jwt_token', value: token);
+      await storage.write(key: 'user_role', value: user.role);
+      await storage.write(key: 'user_id', value: user.id);
+      await storage.write(key: 'user_name', value: user.name);
+
+      isLoggedIn.value = true;
+      adminName.value = user.name;
+
+      Get.offAllNamed('/dashboard');
+      fetchAdminData();
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     } finally {
@@ -103,30 +96,36 @@ class AdminController extends GetxController {
   }
 
   Future<void> fetchUsers() async {
-    final response = await apiClient.get('/users');
-    if (response.isOk && response.body != null) {
-      users.value = response.body as List<dynamic>;
+    try {
+      final response = await apiService.get('/users');
+      users.value = response.data as List<dynamic>;
+    } catch (e) {
+      logger.e('AdminController.fetchUsers failed: $e');
     }
   }
 
   Future<void> fetchProducts() async {
-    final response = await apiClient.get('/products?show_inactive=true');
-    if (response.isOk && response.body != null) {
-      products.value = response.body as List<dynamic>;
+    try {
+      final response = await apiService.get('/products', query: {'show_inactive': 'true'});
+      products.value = response.data as List<dynamic>;
+    } catch (e) {
+      logger.e('AdminController.fetchProducts failed: $e');
     }
   }
 
   Future<void> fetchOrders() async {
-    final response = await apiClient.get('/orders');
-    if (response.isOk && response.body != null) {
-      orders.value = response.body as List<dynamic>;
+    try {
+      final response = await apiService.get('/orders');
+      orders.value = response.data as List<dynamic>;
+    } catch (e) {
+      logger.e('AdminController.fetchOrders failed: $e');
     }
   }
 
   void calculateStats() {
     activeUsersCount.value = users.length;
     totalSalesCount.value = orders.length;
-    
+
     double revenueSum = 0.0;
     for (var o in orders) {
       revenueSum += double.tryParse(o['total_price'].toString()) ?? 0.0;
@@ -135,45 +134,39 @@ class AdminController extends GetxController {
   }
 
   Future<void> toggleProductActive(String id, bool active, String title, String? desc, double price, int stock, String? imgUrl) async {
-    final response = await apiClient.put('/products/$id', {
-      'title': title,
-      'description': desc,
-      'price': price,
-      'stock': stock,
-      'image_url': imgUrl,
-      'is_active': active,
-    });
-    if (response.isOk) {
+    try {
+      await apiService.put('/products/$id', {
+        'title': title,
+        'description': desc,
+        'price': price,
+        'stock': stock,
+        'image_url': imgUrl,
+        'is_active': active,
+      });
       fetchProducts();
       Get.snackbar('Success', 'Product visibility updated.', snackPosition: SnackPosition.BOTTOM);
-    } else {
-      Get.snackbar('Error', _extractError(response, 'Failed to update visibility.'), snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
   }
 
   Future<void> updateProductDetail(String id, Map<String, dynamic> data) async {
-    final response = await apiClient.put('/products/$id', data);
-    if (response.isOk) {
+    try {
+      await apiService.put('/products/$id', data);
       fetchProducts();
       Get.snackbar('Success', 'Product updated successfully.', snackPosition: SnackPosition.BOTTOM);
-    } else {
-      Get.snackbar('Error', _extractError(response, 'Failed to update product details.'), snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
   }
 
   Future<void> deleteProductDetail(String id) async {
-    final response = await apiClient.delete('/products/$id');
-    if (response.isOk) {
+    try {
+      await apiService.delete('/products/$id');
       fetchProducts();
       Get.snackbar('Success', 'Product deleted successfully.', snackPosition: SnackPosition.BOTTOM);
-    } else {
-      Get.snackbar('Error', _extractError(response, 'Failed to delete product.'), snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
-  }
-
-  String _extractError(Response response, String fallback) {
-    return response.body != null && response.body is Map && response.body['error'] != null
-        ? response.body['error'].toString()
-        : fallback;
   }
 }

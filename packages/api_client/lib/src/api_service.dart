@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart' hide Response;
 
-import '../utils/logger.dart';
+import 'logger.dart';
 import 'api_exceptions.dart';
 
 final _ApiService apiService = _ApiService();

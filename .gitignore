@@ -1,5 +1,10 @@
 .env
 .env.*
+# These are committed templates, not real secrets — see each app's README section.
+!.env.example
+!.env.development
+!.env.staging
+!.env.production
 *.log
 .DS_Store
 build/
