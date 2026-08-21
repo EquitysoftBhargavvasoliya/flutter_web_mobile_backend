@@ -3,9 +3,9 @@
 .gitignore
 .idea/
 .vscode/
-build/
-.dart_tool/
-.packages
+**/build/
+**/.dart_tool/
+**/.packages
 *.log
 .env
 .env.*

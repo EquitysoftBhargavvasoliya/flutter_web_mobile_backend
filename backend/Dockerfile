@@ -1,5 +1,7 @@
-# Use latest stable channel SDK.
-FROM dart:stable AS build
+# Pinned, not "dart:stable" — that floating tag moved to Dart 3.13.1 mid-project
+# and broke AOT compilation of googleapis_auth's transitive http dependency.
+# 3.12 is the verified-working version; bump deliberately, not via drift.
+FROM dart:3.12 AS build
 
 # Shared packages referenced via path dependency (../packages/* relative to /app).
 COPY packages/ /packages/
