@@ -17,10 +17,15 @@ class _ApiService {
 
   static Dio dio = _createDio();
 
+  static String get _baseUrl {
+    final url = dotenv.env['API_BASE_URL'];
+    return (url != null && url.isNotEmpty) ? url : 'http://localhost:8080/api/v1';
+  }
+
   static Dio _createDio() {
     final dio = Dio(
       BaseOptions(
-        baseUrl: dotenv.env['API_BASE_URL'] ?? 'http://localhost:8080/api/v1',
+        baseUrl: _baseUrl,
         connectTimeout: const Duration(seconds: 15),
         sendTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
