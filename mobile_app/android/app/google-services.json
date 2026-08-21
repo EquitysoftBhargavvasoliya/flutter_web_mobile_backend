@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "646935299162",
+    "project_id": "orbit-26122025",
+    "storage_bucket": "orbit-26122025.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646935299162:android:04bafdc9c0176ebbfc4463",
+        "android_client_info": {
+          "package_name": "com.example.mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646935299162-rrm7prj8udttpvf19b72qc2drfuu42t3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnlsrnOgjf77FI_XL1EfS_PyxDyH1_m50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646935299162-rrm7prj8udttpvf19b72qc2drfuu42t3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "646935299162-mqd54b50sde19gjk7qp3e1lmvi01ob67.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.orbit.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646935299162:android:4ec108db94021635fc4463",
+        "android_client_info": {
+          "package_name": "com.yourorbit.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646935299162-0g8sggiaqc3lc8fpjmpoc6notda60sjn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourorbit.app",
+            "certificate_hash": "869975f1e9780662033742a31c80f4f524c3403a"
+          }
+        },
+        {
+          "client_id": "646935299162-bkg83urq5bs4l0cva7dq24q26jsicqkc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourorbit.app",
+            "certificate_hash": "666e4eea19f897d4934f83af98f64135fb1b830d"
+          }
+        },
+        {
+          "client_id": "646935299162-gjet3r6dap06og1mut5j09t5d92p9e66.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourorbit.app",
+            "certificate_hash": "6868757e591aff07e04568ba640f09f7d40c7157"
+          }
+        },
+        {
+          "client_id": "646935299162-nucock8urmjl2u8k7150q0m006mk7j1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourorbit.app",
+            "certificate_hash": "e5a4540869c616551a2fc5b815e1b5e399e497ee"
+          }
+        },
+        {
+          "client_id": "646935299162-rrm7prj8udttpvf19b72qc2drfuu42t3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnlsrnOgjf77FI_XL1EfS_PyxDyH1_m50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646935299162-rrm7prj8udttpvf19b72qc2drfuu42t3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "646935299162-mqd54b50sde19gjk7qp3e1lmvi01ob67.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.orbit.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

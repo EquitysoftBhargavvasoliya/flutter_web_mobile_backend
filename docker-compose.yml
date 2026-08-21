@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: orbit_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: orbit_admin
+      POSTGRES_PASSWORD: orbit_password
+      POSTGRES_DB: orbit_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata:
