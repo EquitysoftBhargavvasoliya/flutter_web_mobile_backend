@@ -1,7 +1,8 @@
 import 'package:get/get.dart' hide Response;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:api_client/api_client.dart';
-import 'package:models/models.dart';
+import '../../core/network/api_service.dart';
+import '../../core/network/logger.dart';
+import '../../core/models/models.dart';
 
 class AdminController extends GetxController {
   final storage = const FlutterSecureStorage();

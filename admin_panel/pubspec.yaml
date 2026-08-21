@@ -40,10 +40,8 @@ dependencies:
   http: ^1.6.0
   flutter_secure_storage: ^10.3.1
   flutter_dotenv: ^6.0.1
-  api_client:
-    path: ../packages/api_client
-  models:
-    path: ../packages/models
+  dio: ^5.11.0
+  logger: ^2.7.0
 
 dev_dependencies:
   flutter_test:

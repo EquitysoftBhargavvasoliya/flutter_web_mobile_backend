@@ -1,7 +1,7 @@
 import 'package:get/get.dart' hide Response;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:api_client/api_client.dart';
-import 'package:models/models.dart';
+import '../../core/network/api_service.dart';
+import '../../core/models/models.dart';
 
 class AuthRepository {
   final storage = const FlutterSecureStorage();
