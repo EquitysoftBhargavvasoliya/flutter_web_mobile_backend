@@ -21,11 +21,22 @@ class ApiMiddleware {
     return uri != null && (uri.host == 'localhost' || uri.host == '127.0.0.1');
   }
 
+  /// Supports exact origins ("https://example.com") and wildcard suffix
+  /// patterns ("*.vercel.app") in CORS_ORIGINS, since Vercel assigns a new
+  /// random preview URL on every deploy that a fixed allow-list can't track.
+  static bool _matchesPattern(String origin, String pattern) {
+    if (!pattern.startsWith('*.')) return origin == pattern;
+    final host = Uri.tryParse(origin)?.host;
+    if (host == null) return false;
+    final suffix = pattern.substring(1); // ".vercel.app"
+    return host.endsWith(suffix);
+  }
+
   static String? _allowedOriginFor(String? requestOrigin) {
     if (requestOrigin == null) return null;
     final configured = _configuredOrigins;
     if (configured != null) {
-      return configured.contains(requestOrigin) ? requestOrigin : null;
+      return configured.any((p) => _matchesPattern(requestOrigin, p)) ? requestOrigin : null;
     }
     return _isLocalhostOrigin(requestOrigin) ? requestOrigin : null;
   }
